@@ -1,0 +1,6 @@
+# give clientx.user permission to start/stop/restart clientx.systemd service
+
+%clientx.ALL=NOPASSWD: /bin/systemctl start clientx.target
+%clientx.ALL=NOPASSWD: /bin/systemctl stop clientx.target
+%clientx.ALL=NOPASSWD: /bin/systemctl restart clientx.target
+%clientx.ALL=NOPASSWD: /usr/local/bin/cwctl

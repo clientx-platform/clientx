@@ -1,0 +1,62 @@
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+
+
+<%
+  user_id = 1
+  user_hash = OpenSSL::HMAC.hexdigest(
+    'sha256',
+    @web_widget.hmac_token,
+    user_id.to_s
+  )
+
+%>
+<script>
+
+window.clientx.ettings = {
+  hideMessageBubble: false,
+  // baseDomain: '.loca.lt',
+  position: '<%= @widget_position %>',
+  locale: 'en',
+  useBrowserLanguage: true,
+  type: '<%= @widget_type %>',
+  // showPopoutButton: true,
+  widgetStyle: '<%= @widget_style %>',
+  darkMode: '<%= @dark_mode %>',
+};
+
+(function(d,t) {
+  var BASE_URL = '';
+  var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+  g.src= BASE_URL + "/packs/js/sdk.js";
+  g.defer = true;
+  g.async = true;
+  s.parentNode.insertBefore(g,s);
+  g.onload=function(){
+    window.clientx.DK.run({
+      websiteToken: '<%= @web_widget.website_token %>',
+      baseUrl: BASE_URL
+    })
+  }
+})(document,"script");
+
+window.addEventListener('clientx.ready', function() {
+  console.log('clientx.ready', window.$clientx.;
+  if (window.location.search.includes('setUser')) {
+    window.$clientx.setUser('<%= user_id %>', {
+      identifier_hash: '<%= user_hash %>',
+      email: 'jane@example.com',
+      name: 'Jane Doe',
+      phone_number: ''
+    });
+  }
+})
+
+window.addEventListener('clientx.error', function(e) {
+  console.log('clientx.error', e.detail)
+})
+
+
+window.addEventListener('clientx.on-message', function(e) {
+  console.log('clientx.on-message', e.detail)
+})
+</script>

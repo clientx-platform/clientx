@@ -1,0 +1,25 @@
+[Unit]
+Requires=network.target
+PartOf=clientx.target
+
+[Service]
+Type=simple
+User=clientx
+WorkingDirectory=/home/clientx/clientx
+
+ExecStart=/bin/bash -lc 'dotenv bundle exec sidekiq -C config/sidekiq.yml'
+
+Restart=always
+RestartSec=1
+TimeoutStopSec=30
+KillMode=mixed
+StandardInput=null
+SyslogIdentifier=%p
+
+Environment="PATH=/home/clientx..rvm/gems/ruby-3.2.2/bin:/home/clientx..rvm/gems/ruby-3.2.2@global/bin:/home/clientx..rvm/rubies/ruby-3.2.2/bin:/home/clientx..rvm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/home/clientx..rvm/bin:/home/clientx..rvm/bin"
+Environment="PORT=3000"
+Environment="RAILS_ENV=production"
+Environment="NODE_ENV=production"
+Environment="RAILS_LOG_TO_STDOUT=true"
+Environment="GEM_HOME=/home/clientx..rvm/gems/ruby-3.2.2"
+Environment="GEM_PATH=/home/clientx..rvm/gems/ruby-3.2.2:/home/clientx..rvm/gems/ruby-3.2.2@global"
